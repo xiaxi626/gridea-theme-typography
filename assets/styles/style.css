@@ -407,6 +407,12 @@ footer * {
 .post-abstract {
   font-size: 18px;
 }
+.post-summary-fallback {
+  visibility: hidden;
+}
+.post-summary-fallback.processed {
+  visibility: visible;
+}
 li {
   margin: 5px 0;
 }

@@ -15,13 +15,15 @@
                         <p class="post-title">Archive {{ pagination.totalPosts }} Posts</p>
                         <div class="archive animated fadeInDown">
                             <ul class="list-with-title">
-                                {% for item in posts %}
+                                {% for post in posts %}
                                 <li class="listing-item">
                                     <div class="listing-post">
-                                        <span class="ar-date">{{ item.dateFormat }}</span>
                                         <p class="post-title">
-                                            <a href="{{ item.link }}" title="{{ item.title }}">{{ item.title }}</a>
+                                            <a href="{{ post.link }}" title="{{ post.title }}">{{ post.title }}</a>
                                         </p>
+                                        <div class="post-time">
+                                            <span class="ar-date">{{ post.dateFormat }}</span>
+                                        </div>
                                     </div>
                                 </li>
                                 {% endfor %}

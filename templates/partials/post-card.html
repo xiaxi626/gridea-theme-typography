@@ -43,12 +43,6 @@
     {% if is_detail %}
     <div class="post-content" v-pre>{{ post.content|safe }}</div>
     {% else %}
-    <p class="post-abstract">
-        {% if post.abstract %}
-        {{ post.abstract|safe }}
-        {% else %}
-        {{ post.description }}
-        {% endif %}
-    </p>
+    <div class="post-abstract" v-pre>{% if post.summary %}{{ post.summary|safe }}{% else %}<span class="post-summary-fallback" data-truncate="160" style="visibility: hidden;" v-pre>{{ post.content|safe }}</span>{% endif %}</div>
     {% endif %}
 </div>

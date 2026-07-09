@@ -36,22 +36,22 @@
         {% endif %}
 
         <li class="soc">
-            {% if theme_config.socialGithub %}
+            {% if theme_config.socialGithub and theme_config.socialGithub != "#username" %}
             <a href="https://github.com/{{ theme_config.socialGithub }}" target="_blank" rel="noopener noreferrer" aria-label="Github">
                 <i class="fa fa-github"></i>&nbsp;
             </a>
             {% endif %}
-            {% if theme_config.socialTwitter %}
+            {% if theme_config.socialTwitter and theme_config.socialTwitter != "#username" %}
             <a href="https://twitter.com/{{ theme_config.socialTwitter }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                 <i class="fa fa-twitter"></i>&nbsp;
             </a>
             {% endif %}
-            {% if theme_config.socialInstagram %}
+            {% if theme_config.socialInstagram and theme_config.socialInstagram != "#username" %}
             <a href="https://www.instagram.com/{{ theme_config.socialInstagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <i class="fa fa-instagram"></i>&nbsp;
             </a>
             {% endif %}
-            {% if theme_config.socialWeibo %}
+            {% if theme_config.socialWeibo and theme_config.socialWeibo != "#username/id" %}
             <a href="http://weibo.com/u/{{ theme_config.socialWeibo }}" target="_blank" rel="noopener noreferrer" aria-label="Sina Weibo">
                 <i class="fa fa-weibo"></i>&nbsp;
             </a>
