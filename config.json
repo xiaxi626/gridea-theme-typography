@@ -1,6 +1,6 @@
 {
   "name": "typography",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "Makito (Original), xiaxi626 (Migrated to Gridea Pro)",
   "engine": "jinja2",
   "templateEngine": "jinja2",
