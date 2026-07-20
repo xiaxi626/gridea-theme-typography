@@ -1,0 +1,23 @@
+{% set gitalk_admin = commentSetting.admin %}
+{% if not gitalk_admin %}
+    {% set gitalk_admin = commentSetting.owner %}
+{% endif %}
+<div id="gitalk-container" data-comment-config="gitalk" data-client-id="{{ commentSetting.clientId }}" data-client-secret="{{ commentSetting.clientSecret }}" data-repo="{{ commentSetting.repo }}" data-owner="{{ commentSetting.owner }}" data-admin="{{ gitalk_admin }}" data-page-id="{{ comment_page_id }}" data-page-title="{{ comment_page_title }}"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.css">
+<script>
+(function() {
+    var container = document.getElementById('gitalk-container');
+    var fail = function(message) { container.textContent = message; container.className = 'comment-message'; };
+    var config = { clientID: container.getAttribute('data-client-id'), clientSecret: container.getAttribute('data-client-secret'), repo: container.getAttribute('data-repo'), owner: container.getAttribute('data-owner'), id: container.getAttribute('data-page-id') };
+    if (!config.clientID || !config.clientSecret || !config.repo || !config.owner || !config.id) { fail('Gitalk 评论配置不完整。'); return; }
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js';
+    script.async = true;
+    script.onload = function() {
+        try { new Gitalk({ clientID: config.clientID, clientSecret: config.clientSecret, repo: config.repo, owner: config.owner, admin: container.getAttribute('data-admin').split(',').map(function(name) { return name.trim(); }).filter(Boolean), id: config.id.slice(0, 50), title: container.getAttribute('data-page-title'), distractionFreeMode: false }).render('gitalk-container'); }
+        catch (error) { fail('Gitalk 评论初始化失败，请检查配置。'); }
+    };
+    script.onerror = function() { fail('Gitalk 评论资源加载失败，请稍后重试。'); };
+    document.head.appendChild(script);
+})();
+</script>

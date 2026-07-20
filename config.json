@@ -1,7 +1,7 @@
 {
   "name": "typography",
-  "version": "1.2.3",
-  "author": "Makito (Original), xiaxi626 (Migrated to Gridea Pro)",
+  "version": "1.2.4",
+  "author": "Makito (Original), xiaxi626 (Ported to Gridea Pro)",
   "engine": "jinja2",
   "templateEngine": "jinja2",
   "repository": "https://github.com/SumiMakito/hexo-theme-typography",
@@ -81,10 +81,19 @@
     },
     {
       "name": "showComments",
-      "label": "显示评论入口",
-      "group": "外观设置",
+      "label": "显示评论功能",
+      "group": "评论设置",
       "value": true,
-      "type": "toggle"
+      "type": "toggle",
+      "note": "与 Gridea Pro 全局评论开关共同控制评论区和评论入口"
+    },
+    {
+      "name": "dove",
+      "label": "显示信鸽评论提示",
+      "group": "评论设置",
+      "value": false,
+      "type": "toggle",
+      "note": "独立显示原版主题的信鸽寄信提示，可与真实评论区同时使用"
     },
     {
       "name": "socialGithub",

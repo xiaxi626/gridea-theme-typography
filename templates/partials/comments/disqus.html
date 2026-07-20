@@ -1,0 +1,18 @@
+<div id="disqus_thread" data-comment-config="disqus" data-shortname="{{ commentSetting.shortname }}" data-page-id="{{ comment_page_id }}" data-page-title="{{ comment_page_title }}" data-page-url="{{ comment_page_url }}"></div>
+<noscript><p class="comment-message">请启用 JavaScript 查看 Disqus 评论。</p></noscript>
+<script>
+(function() {
+    var container = document.getElementById('disqus_thread');
+    var fail = function(message) { container.textContent = message; container.className = 'comment-message'; };
+    var shortname = container.getAttribute('data-shortname');
+    var identifier = container.getAttribute('data-page-id');
+    if (!shortname || !identifier) { fail('Disqus 评论配置不完整。'); return; }
+    window.disqus_config = function() { var pageURL = container.getAttribute('data-page-url'); this.page.url = pageURL.indexOf('http') === 0 ? pageURL : window.location.origin + pageURL; this.page.identifier = identifier; this.page.title = container.getAttribute('data-page-title'); };
+    var script = document.createElement('script');
+    script.src = 'https://' + encodeURIComponent(shortname) + '.disqus.com/embed.js';
+    script.async = true;
+    script.setAttribute('data-timestamp', String(Date.now()));
+    script.onerror = function() { fail('Disqus 评论资源加载失败，请稍后重试。'); };
+    document.body.appendChild(script);
+})();
+</script>

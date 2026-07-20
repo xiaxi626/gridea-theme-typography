@@ -24,7 +24,16 @@
                             {% include "partials/share.html" %}
                             
                             {% include "partials/post-nav.html" %}
-                            
+
+                            {% set comment_page_id = post.id %}
+                            {% if not comment_page_id %}
+                                {% set comment_page_id = post.fileName %}
+                            {% endif %}
+                            {% if not comment_page_id %}
+                                {% set comment_page_id = post.link %}
+                            {% endif %}
+                            {% set comment_page_title = post.title %}
+                            {% set comment_page_url = post.link %}
                             {% include "partials/comments.html" %}
                         </div>
                     </div>

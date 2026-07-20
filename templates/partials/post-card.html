@@ -9,7 +9,7 @@
     <p class="post-meta">
         <span class="date meta-item">{{ "Posted at" }}&nbsp;{{ post.dateFormat }}</span>
         
-        {% if theme_config.showComments %}
+        {% if theme_config.showComments and commentSetting and commentSetting.showComment or theme_config.dove %}
         <span class="meta-item">
             <i class="fa fa-comment-o"></i>
             <span>&nbsp;</span>

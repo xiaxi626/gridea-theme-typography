@@ -1,0 +1,17 @@
+<div id="cusdis_thread" data-comment-config="cusdis" data-app-id="{{ commentSetting.appId }}" data-host="{{ commentSetting.host }}" data-page-id="{{ comment_page_id }}" data-page-url="{{ comment_page_url }}" data-page-title="{{ comment_page_title }}"></div>
+<script>
+(function() {
+    var container = document.getElementById('cusdis_thread');
+    var fail = function(message) { container.textContent = message; container.className = 'comment-message'; };
+    var host;
+    try { host = new URL(container.getAttribute('data-host')); } catch (error) { fail('Cusdis 评论地址无效。'); return; }
+    if (!container.getAttribute('data-app-id') || !container.getAttribute('data-page-id') || host.protocol !== 'https:') { fail('Cusdis 评论配置不完整。'); return; }
+    container.setAttribute('data-host', host.origin);
+    var script = document.createElement('script');
+    script.src = host.origin + '/js/cusdis.es.js';
+    script.async = true;
+    script.defer = true;
+    script.onerror = function() { fail('Cusdis 评论资源加载失败，请稍后重试。'); };
+    document.body.appendChild(script);
+})();
+</script>

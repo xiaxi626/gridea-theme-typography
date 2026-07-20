@@ -28,7 +28,7 @@
 | SEO 优化 | ✅ | Meta description / keywords、Open Graph、Twitter Card |
 | KaTeX 数学公式 | ✅ | 文章详情页引入 KaTeX CSS |
 | 入场动画 | ✅ | fadeInDown 动画 + jQuery Appear 滚动触发 |
-| 评论系统 | ⚠️ | 通过 Gridea Pro 运行时注入，**尚未独立验证** |
+| 评论系统 | ✅ | 支持 Valine、Waline、Twikoo、Gitalk、Giscus、Disqus、Cusdis |
 | 自定义导航菜单 | ✅ | 支持自定义 menus，未配置时回退到默认导航 |
 | Google Analytics | ✅ | 支持 Google Analytics 统计|
 | Umami Analytics | ✅ | 支持自托管 Umami 统计 |
@@ -47,7 +47,8 @@
 | 友情链接页 | 原版无独立友链页，Gridea Pro 版新增 `links.html`，支持头像、站点名、描述 |
 | 闪念 / Memos 页 | 原版无此功能，Gridea Pro 版新增 `memos.html`，含 GitHub 风格贡献热力图 |
 | 自定义版权名称 | 可在主题设置中开关，开启后用自定义文字替换版权区域的站点名称 |
-| 评论显示开关 | 新增 `showComments` 配置项，可控制文章列表中评论链接的显示 |
+| 评论显示开关 | `showComments` 同时控制评论入口和真实评论区 |
+| Dove 信鸽提示 | 保留原版独立开关，可单独显示或跟在真实评论区之后 |
 | 博客列表页 | 新增 `blog.html`，与首页结构类似但无特色图片展示 |
 | 文章特色图片 | 首页列表支持 `post.feature` 特色图片展示（带 lazy loading） |
 | KaTeX 支持 | 文章详情页引入 KaTeX 0.10.0 CSS |
@@ -56,8 +57,7 @@
 
 | 功能 | 原因 |
 |------|------|
-| Disqus / LiveRe 评论 | Gridea Pro 自带评论系统，通过 `<div id="gridea-comments"></div>` 占位符注入 |
-| Dove 信鸽彩蛋 | 依赖原版评论系统逻辑，已无实际意义 |
+| LiveRe 评论 | 不在 Gridea Pro 当前全局评论平台范围内，未迁移 |
 | Google Analytics | Gridea Pro 自带统计功能，无需主题层集成 |
 | 多语言 i18n | Gridea Pro 不使用 Hexo 的 language 文件机制，UI 文案直接写在模板中 |
 | SCSS 编译工具链 | 直接使用编译后的 CSS，无需 node-sass / autoprefixer 构建 |
@@ -104,7 +104,8 @@
 | 显示页码计数 | 开关 | 开启 | 分页时显示 "Page X / Total Y" |
 | 显示文章分类 | 开关 | 开启 | 文章列表中显示分类信息 |
 | 显示文章标签 | 开关 | 开启 | 文章列表中显示标签信息 |
-| 显示评论入口 | 开关 | 开启 | 文章列表中显示评论链接 |
+| 显示评论功能 | 开关 | 开启 | 与 Gridea Pro 全局评论开关共同控制评论区和入口 |
+| 显示信鸽评论提示 | 开关 | 关闭 | 独立显示原版信鸽寄信提示，可与真实评论区同时使用 |
 
 ### 社交链接
 
@@ -160,7 +161,8 @@ gridea-typography-theme/
         ├── post-card.html         # 文章卡片（列表 / 详情复用）
         ├── post-nav.html          # 文章上下篇导航
         ├── share.html             # 分享按钮
-        └── comments.html          # 评论区占位
+        ├── comments.html          # 评论平台分发与统一外壳
+        └── comments/              # 七个平台适配器与 Dove 提示
 ```
 
 ---
@@ -177,11 +179,23 @@ gridea-typography-theme/
 
 ---
 
+## 评论配置
+
+真实评论服务读取 Gridea Pro 的全局评论设置，主题内不重复保存平台账号。请先在 Gridea Pro 中开启评论并选择 Valine、Waline、Twikoo、Gitalk、Giscus、Disqus 或 Cusdis，再开启主题的“显示评论功能”。文章详情页和普通独立页面都会在正文末尾按需加载所选平台，其他平台的 SDK 不会进入页面。
+
+主题的“显示信鸽评论提示”是原版 Dove 逻辑的独立开关。它不提交或存储评论，也不是评论 SDK 失败后的回退；开启后显示在真实评论组件之后，没有启用真实评论时也可单独显示。
+
+Gitalk 的客户端工作方式要求 OAuth 配置出现在浏览器页面中。请只使用专用且最小权限的 OAuth 应用，不要复用具有其他资源访问权限的凭据。
+
+修改 `config.json` 中新增的主题配置后，需要重启 Gridea Pro 才能刷新主题设置缓存。
+
+---
+
 ## 待验证事项
 
 | 项目 | 说明 |
 |------|------|
-| 评论系统 | 模板中仅放置了 `<div id="gridea-comments"></div>` 占位符，依赖 Gridea Pro 运行时注入评论组件，尚未在真实环境中验证评论的加载与交互是否正常 |
+| 评论平台账号 | 七个平台模板、分发和错误状态已完成验证；发布前仍需使用各服务的真实账号验证第三方网络与授权配置 |
 | Memos 热力图 | 闪念页的 GitHub 风格热力图为纯 JS 实现，依赖 `memo.createdAtISO` 提供 ISO 格式日期，需确认 Gridea Pro 是否正确输出该字段 |
 | 自定义导航菜单 | 导航栏支持 `menus` 变量自定义菜单项，需确认 Gridea Pro 的菜单数据结构与模板中的 `menu.name` / `menu.link` 是否匹配 |
 | KaTeX 公式渲染 | 仅引入了 KaTeX CSS，JS 渲染引擎需 Gridea Pro 运行时提供，需确认公式页面是否正常渲染 |

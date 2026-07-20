@@ -1,0 +1,15 @@
+<div id="waline" data-comment-config="waline" data-server-url="{{ commentSetting.serverURLs }}" data-page-id="{{ comment_page_id }}"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@waline/client@3.6.0/dist/waline.css">
+<script type="module">
+var container = document.getElementById('waline');
+var fail = function(message) { container.textContent = message; container.className = 'comment-message'; };
+var serverURL = container.getAttribute('data-server-url');
+if (!serverURL) {
+    fail('Waline 评论配置不完整。');
+} else {
+    import('https://cdn.jsdelivr.net/npm/@waline/client@3.6.0/dist/waline.js').then(function(module) {
+        try { module.init({ el: '#waline', serverURL: serverURL, path: container.getAttribute('data-page-id') }); }
+        catch (error) { fail('Waline 评论初始化失败，请检查配置。'); }
+    }).catch(function() { fail('Waline 评论资源加载失败，请稍后重试。'); });
+}
+</script>

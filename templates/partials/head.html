@@ -3,13 +3,17 @@
 <meta name="author" content="{{ config.author }}">
 <title>{% block site_title %}{{ config.siteName }}{% endblock %}</title>
 {% block description %}
-<meta name="description" content="{{ config.siteDescription or 'A Blog Powered By Gridea Pro' }}">
+{% set site_description = config.siteDescription %}
+{% if not site_description %}
+    {% set site_description = 'A Blog Powered By Gridea Pro' %}
+{% endif %}
+<meta name="description" content="{{ site_description }}">
 {% endblock %}
 
 {% if post and post.tagsString %}
 <meta name="keywords" content="{{ post.tagsString }}">
 {% else %}
-<meta name="keywords" content="{{ theme_config.siteKeywords or '' }}">
+<meta name="keywords" content="{{ theme_config.siteKeywords }}">
 {% endif %}
 
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">

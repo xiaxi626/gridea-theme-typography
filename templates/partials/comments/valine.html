@@ -1,0 +1,19 @@
+<div id="vcomments" class="vcomment" data-comment-config="valine" data-app-id="{{ commentSetting.appId }}" data-app-key="{{ commentSetting.appKey }}" data-server-urls="{{ commentSetting.serverURLs }}" data-page-id="{{ comment_page_id }}"></div>
+<script>
+(function() {
+    var container = document.getElementById('vcomments');
+    var fail = function(message) { container.textContent = message; container.className = 'comment-message'; };
+    var appId = container.getAttribute('data-app-id');
+    var appKey = container.getAttribute('data-app-key');
+    if (!appId || !appKey) { fail('Valine 评论配置不完整。'); return; }
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js';
+    script.async = true;
+    script.onload = function() {
+        try { new Valine({ el: '#vcomments', appId: appId, appKey: appKey, serverURLs: container.getAttribute('data-server-urls') || undefined, path: container.getAttribute('data-page-id') }); }
+        catch (error) { fail('Valine 评论初始化失败，请检查配置。'); }
+    };
+    script.onerror = function() { fail('Valine 评论资源加载失败，请稍后重试。'); };
+    document.head.appendChild(script);
+})();
+</script>

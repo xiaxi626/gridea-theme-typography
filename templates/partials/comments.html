@@ -1,1 +1,31 @@
-<div id="gridea-comments"></div>
+{% set comment_service_visible = theme_config.showComments and commentSetting and commentSetting.showComment %}
+{% set comment_platform = commentSetting.commentPlatform %}
+{% if not comment_platform %}
+    {% set comment_platform = commentSetting.platform %}
+{% endif %}
+{% if comment_service_visible or theme_config.dove %}
+<section id="comments" class="comments">
+    {% if comment_service_visible %}
+        {% if comment_platform == 'Valine' %}
+            {% include "partials/comments/valine.html" %}
+        {% elif comment_platform == 'Waline' %}
+            {% include "partials/comments/waline.html" %}
+        {% elif comment_platform == 'Twikoo' %}
+            {% include "partials/comments/twikoo.html" %}
+        {% elif comment_platform == 'Gitalk' %}
+            {% include "partials/comments/gitalk.html" %}
+        {% elif comment_platform == 'Giscus' %}
+            {% include "partials/comments/giscus.html" %}
+        {% elif comment_platform == 'Disqus' %}
+            {% include "partials/comments/disqus.html" %}
+        {% elif comment_platform == 'Cusdis' %}
+            {% include "partials/comments/cusdis.html" %}
+        {% else %}
+            <p class="comment-message">当前评论平台暂不受主题支持。</p>
+        {% endif %}
+    {% endif %}
+    {% if theme_config.dove %}
+        {% include "partials/comments/dove.html" %}
+    {% endif %}
+</section>
+{% endif %}

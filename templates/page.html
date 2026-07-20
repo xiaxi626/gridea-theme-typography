@@ -19,6 +19,15 @@
                                 </p>
                                 <div class="post-content">{{ page.content|safe }}</div>
                             </div>
+                            {% set comment_page_id = page.id %}
+                            {% if not comment_page_id %}
+                                {% set comment_page_id = page.fileName %}
+                            {% endif %}
+                            {% if not comment_page_id %}
+                                {% set comment_page_id = page.link %}
+                            {% endif %}
+                            {% set comment_page_title = page.title %}
+                            {% set comment_page_url = page.link %}
                             {% include "partials/comments.html" %}
                         </div>
                     </div>
