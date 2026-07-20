@@ -213,12 +213,10 @@ body {
 }
 .archive ul {
   list-style-type: none;
-  padding-left: 0;
 }
 .list-with-title,
 .listing {
   list-style: none;
-  padding-left: 0;
   margin: 0;
 }
 .links-container ul {

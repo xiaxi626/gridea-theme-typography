@@ -15,18 +15,25 @@
                         <p class="post-title">Archive {{ pagination.totalPosts }} Posts</p>
                         <div class="archive animated fadeInDown">
                             <ul class="list-with-title">
-                                {% for post in posts %}
-                                <li class="listing-item">
-                                    <div class="listing-post">
-                                        <p class="post-title">
-                                            <a href="{{ post.link }}" title="{{ post.title }}">{{ post.title }}</a>
-                                        </p>
-                                        <div class="post-time">
-                                            <span class="ar-date">{{ post.dateFormat }}</span>
-                                        </div>
-                                    </div>
+                                {%- for group in archives -%}
+                                <li class="listing-title">
+                                    <h4 class="ar-year">{{ group.Year }}</h4>
+                                    <ul class="listing">
+                                        {%- for post in group.Posts -%}
+                                        <li class="listing-item">
+                                            <div class="listing-post">
+                                                <p class="post-title">
+                                                    <a href="{{ post.link }}" title="{{ post.title }}">{{ post.title }}</a>
+                                                </p>
+                                                <div class="post-time">
+                                                    <span class="ar-date">{{ post.date|slice:"5:10" }}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {%- endfor -%}
+                                    </ul>
                                 </li>
-                                {% endfor %}
+                                {%- endfor -%}
                             </ul>
                         </div>
                         {% include "partials/pagination.html" %}
